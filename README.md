@@ -1,2 +1,2 @@
 # BMI_Tracker
-A flutter Application for Easily monitoring &amp; tracking your BMI.
+An Android Application for Easily monitoring &amp; tracking your BMI.
