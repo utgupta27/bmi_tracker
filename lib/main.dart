@@ -1,8 +1,9 @@
 import 'package:bmi_tracker/drawer.dart';
 import 'package:bmi_tracker/homepage.dart';
-import 'package:bmi_tracker/navbar.dart';
+// import 'package:bmi_tracker/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:bmi_tracker/func.dart';
+import 'package:bmi_tracker/historyPage.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -23,6 +24,15 @@ final weightController = TextEditingController();
 final ageController = TextEditingController();
 
 class MainPageState extends State<MainPage> {
+
+  int _currentIndex = 0;
+  final List<Widget> _screens = [HomePage(),History()];
+  void onItemTapped(int val){
+    setState(() {
+      _currentIndex = val;
+    });
+  }
+
   void update(double value) {
     outBMI = value.toStringAsPrecision(2);
   }
@@ -47,7 +57,7 @@ class MainPageState extends State<MainPage> {
         backgroundColor: Colors.blue[800],
       ),
       drawer: MyDrawer(),
-      body: HomePage(),
+      body: _screens[_currentIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           inputHeight = int.parse(heightController.value.text);
@@ -64,7 +74,16 @@ class MainPageState extends State<MainPage> {
         backgroundColor: Colors.black54,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      bottomNavigationBar: MyNavBar(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 30), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.history_rounded, size: 30), label: "History")
+        ],
+      ),
     );
   }
 }
