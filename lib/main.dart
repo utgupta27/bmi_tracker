@@ -2,7 +2,6 @@ import 'package:bmi_tracker/drawer.dart';
 import 'package:bmi_tracker/homepage.dart';
 // import 'package:bmi_tracker/navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:bmi_tracker/func.dart';
 import 'package:bmi_tracker/historyPage.dart';
 
 void main() {
@@ -17,12 +16,6 @@ class MainPage extends StatefulWidget {
   MainPageState createState() => MainPageState();
 }
 
-int inputHeight, inputWeight, inputAge;
-var outBMI, suggest;
-final heightController = TextEditingController();
-final weightController = TextEditingController();
-final ageController = TextEditingController();
-
 class MainPageState extends State<MainPage> {
 
   int _currentIndex = 0;
@@ -31,22 +24,6 @@ class MainPageState extends State<MainPage> {
     setState(() {
       _currentIndex = val;
     });
-  }
-
-  void update(double value) {
-    outBMI = value.toStringAsPrecision(2);
-  }
-
-  void updateSuggestion(var sug) {
-    suggest = sug;
-  }
-
-  @override
-  void dispose() {
-    heightController.dispose();
-    weightController.dispose();
-    ageController.dispose();
-    super.dispose();
   }
 
   @override
@@ -58,22 +35,7 @@ class MainPageState extends State<MainPage> {
       ),
       drawer: MyDrawer(),
       body: _screens[_currentIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          inputHeight = int.parse(heightController.value.text);
-          inputWeight = int.parse(weightController.value.text);
-          inputAge = int.parse(ageController.value.text);
-          setState(() {
-            super.setState(() {
-              update(calculate(inputHeight, inputWeight));
-              updateSuggestion(suggestion(outBMI));
-            });
-          });
-        },
-        child: Icon(Icons.calculate_outlined),
-        backgroundColor: Colors.black54,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: onItemTapped,
